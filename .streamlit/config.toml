@@ -8,6 +8,10 @@ secondaryBackgroundColor="#E0E0E0"
 textColor="#000000"
 font="sans serif"
 
+div.stFileUploader>div>div>div>label {
+    font-size: 20px;   /* tamanho do texto */
+}
+
 [browser]
 gatherUsageStats = false
 
