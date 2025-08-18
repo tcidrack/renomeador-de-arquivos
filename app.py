@@ -13,26 +13,31 @@ footer {visibility: hidden;}
 st.set_page_config(page_title="Renomeador de Arquivos", layout="centered")
 st.title("📄 Renomeador de Arquivos")
 
+# estado de login
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
 users = st.secrets["app"]["users"]
 
+# 🔑 só mostra o login se ainda não estiver logado
 if not st.session_state.logged_in:
-    username = st.text_input("Usuário")
-    password = st.text_input("Senha", type="password")
-    login = st.button("Entrar")
+    with st.form("login_form"):
+        username = st.text_input("Usuário")
+        password = st.text_input("Senha", type="password")
+        login = st.form_submit_button("Entrar")
 
     if login:
         if username in users and password == users[username]:
             st.session_state.logged_in = True
             st.success(f"✅ Bem-vindo, {username}!")
+            st.rerun()  # força atualizar a tela sem os campos
         else:
             st.error("Usuário ou senha incorretos!")
+
 else:
     st.success("✅ Você já está logado!")
 
-if st.session_state.logged_in:
+    # uploader aparece só depois do login
     uploaded_files = st.file_uploader(
         "Selecione ou arraste seus arquivos aqui",
         type=None,
@@ -42,7 +47,6 @@ if st.session_state.logged_in:
 
     if uploaded_files:
         output_buffer = BytesIO()
-
         with zipfile.ZipFile(output_buffer, "w") as zipf:
             for file in uploaded_files:
                 file_name, file_ext = os.path.splitext(file.name)
