@@ -4,7 +4,7 @@ from io import BytesIO
 from pathlib import Path
 
 st.set_page_config(page_title="Renomeador de Arquivos", layout="centered")
-st.title("📄 Renomeador de Arquivos")
+st.title("📄 Renomeador de Arquivos - faturamento_auditoria")
 
 uploaded_files = st.file_uploader(
     "Selecione ou arraste seus arquivos aqui",
